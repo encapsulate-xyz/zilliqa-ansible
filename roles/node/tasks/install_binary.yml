@@ -1,0 +1,37 @@
+---
+- name: Create zilliqa node Docker container and copy binary
+  vars:
+    container_name: zilliq_node
+  block:
+    - name: Create temporary zilliqa node container for binary extraction
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ zilliqa.validator.source_url }}:{{ zilliqa.validator.version }}"
+        state: present
+        recreate: true
+
+    - name: Copy zilliqa node binary
+      ansible.builtin.shell: >
+        docker cp {{ container_name }}:/zilliqa {{ node_bin_dir }}/{{ service_identifier }}
+      args:
+        executable: /bin/bash
+      register: copy_result
+      changed_when: copy_result.rc == 0
+      failed_when:
+        - copy_result.rc != 0
+        - "'No such container' in copy_result.stderr"
+      notify:
+        - Restart service
+
+    - name: Ensure zilliqa node binary has the correct permissions
+      ansible.builtin.file:
+        path: "{{ node_bin_dir }}/{{ service_identifier }}"
+        owner: root
+        group: root
+        mode: "0755"
+
+  always:
+    - name: Remove zilliqa node container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        state: absent
