@@ -1,0 +1,7 @@
+---
+scilla_ufw_rules:
+  - port: "{{ zilliqa.scilla.ports.scilla_port }}"
+    proto: udp
+    rule: allow
+    from: any
+    comment: scilla_port

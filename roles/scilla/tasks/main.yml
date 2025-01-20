@@ -1,0 +1,42 @@
+---
+- name: Include the UFW vars file
+  ansible.builtin.include_vars:
+    file: vars/ufw_rules.yml
+
+- name: Apply UFW rules
+  ansible.builtin.include_tasks: tasks/apply_ufw_rules.yml
+  loop: "{{ scilla_ufw_rules }}"
+
+- name: Install Docker
+  ansible.builtin.import_tasks: install_docker.yml
+
+- name: Include user creation task for scilla
+  ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
+  vars:
+    home: "{{ scilla_home_dir }}"
+    directories: "{{ scilla_directories }}"
+    log_file_path: "{{ scilla_log_file_path }}"
+
+- name: Install Binary
+  ansible.builtin.import_tasks: install_binary.yml
+
+- name: Copy scilla general env file
+  ansible.builtin.template:
+    src: general.env.j2
+    dest: "{{ scilla_environment_general_file_path }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Restart service
+
+- name: Copy scilla systemd service file
+  ansible.builtin.template:
+    src: systemd.service.j2
+    dest: /etc/systemd/system/{{ service_identifier }}.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload service
+    - Restart service

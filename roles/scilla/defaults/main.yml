@@ -1,0 +1,19 @@
+---
+# maintains directories and paths
+scilla_home_dir: /opt/{{ service_identifier }}
+
+scilla_bin_dir: "{{ scilla_home_dir }}/bin"
+scilla_env_dir: "{{ scilla_home_dir }}/env"
+scilla_lib_dir: "{{ scilla_home_dir }}/lib"
+scilla_log_dir: "{{ scilla_home_dir }}/log"
+
+scilla_directories:
+  - "{{ scilla_home_dir }}"
+  - "{{ scilla_bin_dir }}"
+  - "{{ scilla_env_dir }}"
+  - "{{ scilla_lib_dir }}"
+  - "{{ scilla_log_dir }}"
+
+scilla_log_file_path: "{{ scilla_log_dir }}/{{ service_identifier }}.log"
+
+scilla_environment_general_file_path: "{{ scilla_env_dir }}/{{ scilla_environment_general_file_name }}"
