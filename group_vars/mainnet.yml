@@ -3,4 +3,5 @@
 zilliqa:
   validator:
     version: v0.5.3
-
+  scilla:
+    version: v0.5.3

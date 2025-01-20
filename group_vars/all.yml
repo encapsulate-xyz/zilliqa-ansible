@@ -19,3 +19,9 @@ zilliqa:
     source_url: asia-docker.pkg.dev/prj-p-devops-services-tvwmrf63/zilliqa-public/zq2
     ports:
       p2p_port: 3333
+      json_rpc_port: 4201
+      api_port: 4202
+  scilla:
+    source_url: asia-docker.pkg.dev/prj-p-devops-services-tvwmrf63/zilliqa-public/zq2
+    ports:
+      scilla_port: 3000
