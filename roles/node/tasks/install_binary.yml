@@ -1,37 +1,35 @@
 ---
-- name: Create zilliqa node Docker container and copy binary
-  vars:
-    container_name: zilliq_node
-  block:
-    - name: Create temporary zilliqa node container for binary extraction
-      community.docker.docker_container:
-        name: "{{ container_name }}"
-        image: "{{ zilliqa.validator.source_url }}:{{ zilliqa.validator.version }}"
-        state: present
-        recreate: true
+- name: Ensure tmp directory exists
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}"
+    state: directory
+    mode: "1777"
 
-    - name: Copy zilliqa node binary
-      ansible.builtin.shell: >
-        docker cp {{ container_name }}:/zilliqa {{ node_bin_dir }}/{{ service_identifier }}
-      args:
-        executable: /bin/bash
-      register: copy_result
-      changed_when: copy_result.rc == 0
-      failed_when:
-        - copy_result.rc != 0
-        - "'No such container' in copy_result.stderr"
-      notify:
-        - Restart service
+- name: Clone the repository to /tmp
+  ansible.builtin.git:
+    repo: "{{ zilliqa[type].source_url }}"
+    dest: "{{ tmp_dir }}/{{ project }}"
+    version: "{{ zilliqa[type].version }}"
+    force: true
 
-    - name: Ensure zilliqa node binary has the correct permissions
-      ansible.builtin.file:
-        path: "{{ node_bin_dir }}/{{ service_identifier }}"
-        owner: root
-        group: root
-        mode: "0755"
+- name: Build the project using cargo
+  ansible.builtin.command: cargo build --release --bin zilliqa
+  args:
+    chdir: "{{ tmp_dir }}/{{ service_identifier }}"
+    creates: "{{ tmp_dir }}/{{ project }}/target/release/zilliqa"
 
-  always:
-    - name: Remove zilliqa node container
-      community.docker.docker_container:
-        name: "{{ container_name }}"
-        state: absent
+- name: Copy the built binary to the target directory
+  ansible.builtin.copy:
+    src: "{{ tmp_dir }}/{{ project }}/target/release/zilliqa"
+    dest: "{{ node_bin_dir }}/{{ service_identifier }}"
+    mode: "0755"
+    owner: root
+    group: root
+    remote_src: true
+  notify:
+    - Restart service
+
+- name: Clean up the temporary repository directory
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}/{{ project }}"
+    state: absent
