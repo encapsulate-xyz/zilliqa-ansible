@@ -1,0 +1,16 @@
+---
+- name: Install apt packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  loop:
+    - build-essential
+    - curl
+    - git
+    - protobuf-compiler
+    - libev-dev 
+    - libgmp-dev
+    - cargo
+    - rustup
