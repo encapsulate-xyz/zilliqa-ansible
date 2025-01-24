@@ -6,6 +6,8 @@ domain_regex: ^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$
 monitor_server_dns: monitor.encapsulate.xyz
 ansible_port: 8192
 
+tmp_dir: /tmp
+
 architecture_map:
   x86_64: amd64
   aarch64: arm64
@@ -16,7 +18,7 @@ default_node_types:
 
 zilliqa:
   validator:
-    source_url: asia-docker.pkg.dev/prj-p-devops-services-tvwmrf63/zilliqa-public/zq2
+    source_url: https://github.com/Zilliqa/zq2
     ports:
       p2p_port: 3333
       json_rpc_port: 4201
