@@ -1,18 +1,18 @@
 ---
-- name: Fetch checkpoint_block_num from the checkpoint URL
+- name: Fetch checkpoint_file_name from the checkpoint URL
   ansible.builtin.uri:
     url: "{{ zilliqa.validator.checkpoint_url }}"
     return_content: true
   register: checkpoint_response
 
-- name: Extract the checkpoint_block_num from the checkpoint_response
+- name: Extract the checkpoint_file_name from the checkpoint_response
   ansible.builtin.set_fact:
-    checkpoint_block_num: "{{ (checkpoint_response.content | regex_findall('[0-9]+\\.dat'))[0] }}"
+    checkpoint_file_name: "{{ (checkpoint_response.content | regex_findall('[0-9]+\\.dat'))[0] }}"
   when: checkpoint_response.content is not none
 
 - name: Convert checkpoint_block_num to hexadecimal
   ansible.builtin.set_fact:
-    hex_value: "0x{{ '%X' | format(checkpoint_block_num | regex_replace('\\.dat$', '') | int) }}"
+    checkpoint_block_number_hex_value: "0x{{ '%X' | format(checkpoint_file_name | regex_replace('\\.dat$', '') | int) }}"
 
 - name: Get checkpoint_block_num hash
   ansible.builtin.uri:
@@ -21,7 +21,7 @@
     body_format: json
     body:
       method: "eth_getBlockByNumber"
-      params: ["{{ hex_value }}", false]
+      params: ["{{ checkpoint_block_number_hex_value }}", false]
       id: 1
       jsonrpc: "2.0"
     headers:
@@ -52,31 +52,19 @@
 
 - name: Download the checkpoint snapshot file
   ansible.builtin.uri:
-    url: "{{ zilliqa.validator.snapshot_url }}/{{ checkpoint_block_num }}"
-    dest: "{{ sync_data_dir }}/{{ checkpoint_block_num }}"
+    url: "{{ zilliqa.validator.checkpoint_url }}/{{ checkpoint_file_name }}"
+    dest: "{{ sync_data_dir }}/{{ checkpoint_file_name }}"
     owner: "{{ service_identifier }}"
     group: "{{ service_identifier }}"
     mode: "0644"
 
-- name: Update load_checkpoint configuration if commented
-  replace:
-    path: "{{ sync_config_file_path }}"
-    regexp: '#\[nodes\.load_checkpoint\]\n#file = ""\n#hash = ""'
-    replace: '[nodes.load_checkpoint]\nfile = "{{ sync_data_dir }}/{{ checkpoint_block_num }}"\nhash = "{{ checkpoint_block_hash }}"'
-
-- name: Update load_checkpoint file path
-  lineinfile:
-    path: "{{ sync_config_file_path }}"
-    regexp: '^file = ".*"$'
-    line: 'file = "{{ sync_data_dir }}/{{ checkpoint_block_num }}"'
-    insertafter: '^\[nodes\.load_checkpoint\]'
-
-- name: Update load_checkpoint hash
-  lineinfile:
-    path: "{{ sync_config_file_path }}"
-    regexp: '^hash = ".*"$'
-    line: 'hash = "{{ checkpoint_block_hash }}"'
-    insertafter: '^file = '
+- name: Copy node configuration file
+  ansible.builtin.template:
+    src: "{{ env }}/config.toml.j2"
+    dest: "{{ sync_config_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
 
 - name: Restart service
   ansible.builtin.systemd:
