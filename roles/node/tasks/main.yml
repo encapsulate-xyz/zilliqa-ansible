@@ -7,9 +7,6 @@
   ansible.builtin.include_tasks: tasks/apply_ufw_rules.yml
   loop: "{{ node_ufw_rules }}"
 
-- name: Install Docker
-  ansible.builtin.import_tasks: install_docker.yml
-
 - name: Include user creation task for zilliqa
   ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
   vars:
@@ -43,8 +40,8 @@
   ansible.builtin.template:
     src: "general.env.j2"
     dest: "{{ node_environment_general_file_path }}"
-    owner: root
-    group: root
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
     mode: "0644"
 
 - name: Copy zilliq node systemd service file
