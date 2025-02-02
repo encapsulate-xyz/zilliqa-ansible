@@ -16,6 +16,8 @@ node_directories:
   - "{{ node_env_dir }}"
   - "{{ node_log_dir }}"
 
+node_scilla_lib_dir: /opt/zilliqa-scilla/lib
+
 node_config_file_path: "{{ node_config_dir }}/{{ node_config_file_name }}"
 node_log_file_path: "{{ node_log_dir }}/{{ service_identifier }}.log"
 
