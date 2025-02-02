@@ -1,7 +1,9 @@
 ---
-sync_home_dir: /opt/{{ service_identifier }}
+sync_node_home_dir: /opt/{{ service_identifier }}
 
-sync_data_dir: "{{ sync_home_dir }}/data"
-sync_config_dir: "{{ sync_home_dir }}/config"
+sync_node_data_dir: "{{ sync_node_home_dir }}/data"
+sync_node_config_dir: "{{ sync_node_home_dir }}/config"
 
-sync_config_file_path: "{{ sync_config_dir }}/{{ sync_config_file_name }}"
+sync_node_scilla_lib_dir: /opt/zilliqa-scilla/lib
+
+sync_node_config_file_path: "{{ sync_node_config_dir }}/{{ sync_node_config_file_name }}"

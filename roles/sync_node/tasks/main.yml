@@ -39,12 +39,12 @@
 
 - name: Delete data folder
   ansible.builtin.file:
-    path: "{{ sync_data_dir }}"
+    path: "{{ sync_node_data_dir }}"
     state: absent
 
 - name: Create data folder
   ansible.builtin.file:
-    path: "{{ sync_data_dir }}"
+    path: "{{ sync_node_data_dir }}"
     state: directory
     owner: "{{ service_identifier }}"
     group: "{{ service_identifier }}"
@@ -53,7 +53,7 @@
 - name: Download the checkpoint snapshot file
   ansible.builtin.uri:
     url: "{{ zilliqa.validator.checkpoint_url }}/{{ checkpoint_file_name }}"
-    dest: "{{ sync_data_dir }}/{{ checkpoint_file_name }}"
+    dest: "{{ sync_node_data_dir }}/{{ checkpoint_file_name }}"
     owner: "{{ service_identifier }}"
     group: "{{ service_identifier }}"
     mode: "0644"
@@ -61,7 +61,7 @@
 - name: Copy node configuration file
   ansible.builtin.template:
     src: "{{ env }}/config.toml.j2"
-    dest: "{{ sync_config_file_path }}"
+    dest: "{{ sync_node_config_file_path }}"
     owner: "{{ service_identifier }}"
     group: "{{ service_identifier }}"
     mode: "0644"
