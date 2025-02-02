@@ -26,4 +26,4 @@ zilliqa:
   scilla:
     source_url: asia-docker.pkg.dev/prj-p-devops-services-tvwmrf63/zilliqa-public/zq2
     ports:
-      scilla_port: 3000
+      scilla_port: 3001
