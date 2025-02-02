@@ -2,8 +2,8 @@
 # maintains versions and can overwrite all.yml
 zilliqa:
   validator:
-    version: v0.5.3
-    checkpoint_url: https://checkpoints.zq2-protomainnet.zilliqa.com
-    api_url: https://api.zq2-protomainnet.zilliqa.com
+    version:
+    checkpoint_url:
+    api_url:
   scilla:
-    version: v0.5.3
+    version:
