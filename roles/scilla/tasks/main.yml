@@ -1,12 +1,4 @@
 ---
-- name: Include the UFW vars file
-  ansible.builtin.include_vars:
-    file: vars/ufw_rules.yml
-
-- name: Apply UFW rules
-  ansible.builtin.include_tasks: tasks/apply_ufw_rules.yml
-  loop: "{{ scilla_ufw_rules }}"
-
 - name: Install Docker
   ansible.builtin.import_tasks: install_docker.yml
 
@@ -24,8 +16,8 @@
   ansible.builtin.template:
     src: general.env.j2
     dest: "{{ scilla_environment_general_file_path }}"
-    owner: root
-    group: root
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
     mode: "0644"
   notify:
     - Restart service
