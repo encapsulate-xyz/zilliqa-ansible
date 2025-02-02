@@ -1,0 +1,72 @@
+---
+- name: Fetch checkpoint_file_name from the checkpoint URL
+  ansible.builtin.uri:
+    url: "{{ zilliqa.validator.checkpoint_url }}"
+    return_content: true
+  register: checkpoint_response
+
+- name: Extract the checkpoint_file_name from the checkpoint_response
+  ansible.builtin.set_fact:
+    checkpoint_file_name: "{{ (checkpoint_response.content | regex_findall('[0-9]+\\.dat'))[0] }}"
+  when: checkpoint_response.content is not none
+
+- name: Convert checkpoint_block_num to hexadecimal
+  ansible.builtin.set_fact:
+    checkpoint_block_number_hex_value: "0x{{ '%X' | format(checkpoint_file_name | regex_replace('\\.dat$', '') | int) }}"
+
+- name: Get checkpoint_block_num hash
+  ansible.builtin.uri:
+    url: "{{ zilliqa.validator.api_url }}"
+    method: POST
+    body_format: json
+    body:
+      method: "eth_getBlockByNumber"
+      params: ["{{ checkpoint_block_number_hex_value }}", false]
+      id: 1
+      jsonrpc: "2.0"
+    headers:
+      Content-Type: "application/json"
+  register: block_response
+
+- name: Extract checkpoint_block_hash from response
+  ansible.builtin.set_fact:
+    checkpoint_block_hash: "{{ block_response.json.result.hash | regex_replace('^0x', '') }}"
+
+- name: Stop service
+  ansible.builtin.systemd:
+    name: "{{ service_identifier }}"
+    state: stopped
+
+- name: Delete data folder
+  ansible.builtin.file:
+    path: "{{ sync_node_data_dir }}"
+    state: absent
+
+- name: Create data folder
+  ansible.builtin.file:
+    path: "{{ sync_node_data_dir }}"
+    state: directory
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0755"
+
+- name: Download the checkpoint snapshot file
+  ansible.builtin.uri:
+    url: "{{ zilliqa.validator.checkpoint_url }}/{{ checkpoint_file_name }}"
+    dest: "{{ sync_node_data_dir }}/{{ checkpoint_file_name }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
+
+- name: Copy node configuration file
+  ansible.builtin.template:
+    src: "{{ env }}/config.toml.j2"
+    dest: "{{ sync_node_config_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
+
+- name: Restart service
+  ansible.builtin.systemd:
+    name: "{{ service_identifier }}"
+    state: restarted

@@ -1,0 +1,35 @@
+---
+- name: Ensure tmp directory exists
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}"
+    state: directory
+    mode: "1777"
+
+- name: Clone the repository to /tmp
+  ansible.builtin.git:
+    repo: "{{ zilliqa[type].source_url }}"
+    dest: "{{ tmp_dir }}/{{ project }}"
+    version: "{{ zilliqa[type].version }}"
+    force: true
+
+- name: Build the project using cargo
+  ansible.builtin.command: cargo build --release --bin zilliqa
+  args:
+    chdir: "{{ tmp_dir }}/{{ service_identifier }}"
+    creates: "{{ tmp_dir }}/{{ project }}/target/release/zilliqa"
+
+- name: Copy the built binary to the target directory
+  ansible.builtin.copy:
+    src: "{{ tmp_dir }}/{{ project }}/target/release/zilliqa"
+    dest: "{{ node_bin_dir }}/{{ service_identifier }}"
+    mode: "0755"
+    owner: root
+    group: root
+    remote_src: true
+  notify:
+    - Restart service
+
+- name: Clean up the temporary repository directory
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}/{{ project }}"
+    state: absent

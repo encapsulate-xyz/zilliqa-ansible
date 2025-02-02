@@ -1,10 +1,8 @@
 ---
-- name: Set up sui bridge node
+- name: Set up scilla
   hosts: all
   become: true
-  gather_facts: false
-  vars:
-    allowed_node_types: [bridge]
+  gather_facts: true
   vars_files:
     - group_vars/all.yml
     - group_vars/vault.yml
@@ -12,18 +10,18 @@
 
   pre_tasks:
     - name: Setup Pre Tasks
-      when: type in allowed_node_types
       block:
         - name: Include environment setup tasks
           ansible.builtin.include_tasks: tasks/setup_environment.yml
+          vars:
+            type: scilla
 
   tasks:
-    - name: Setup environment and run bridge role
-      when: type in allowed_node_types
+    - name: Run scilla role
       block:
         - name: Include common handlers
           ansible.builtin.include_role:
             name: common
-        - name: Include bridge role
+        - name: Include node role
           ansible.builtin.include_role:
-            name: bridge
+            name: scilla

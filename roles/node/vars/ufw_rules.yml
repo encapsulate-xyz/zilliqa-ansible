@@ -1,0 +1,7 @@
+---
+node_ufw_rules:
+  - port: "{{ zilliqa.validator.ports.p2p_port }}"
+    proto: udp
+    rule: allow
+    from: any
+    comment: p2p_port
