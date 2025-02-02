@@ -9,7 +9,7 @@
         image: "{{ zilliqa.scilla.source_url }}:{{ zilliqa.scilla.version }}"
         state: present
         recreate: true
-   
+
     - name: Copy scilla_http_server binary
       ansible.builtin.shell: >
         docker cp {{ container_name }}:/scilla/0/_build/default/src/runners/scilla_server_http.exe {{ scilla_bin_dir }}/{{ service_identifier }}
@@ -41,7 +41,7 @@
         - "'No such container' in copy_result.stderr"
       notify:
         - Restart service
-  
+
     - name: Copy std libraries from container
       ansible.builtin.shell: |
         docker cp {{ container_name }}:/scilla/0/_build/default/src/stdlib/. {{ scilla_lib_dir }}
@@ -54,7 +54,7 @@
         - "'No such container' in copy_result.stderr"
       notify:
         - Restart service
-    
+
     - name: Ensure scilla_http_server binary has the correct permissions
       ansible.builtin.file:
         path: "{{ scilla_bin_dir }}/{{ service_identifier }}"
@@ -67,3 +67,9 @@
       community.docker.docker_container:
         name: "{{ container_name }}"
         state: absent
+
+- name: Create symbolic link for libffi
+  ansible.builtin.file:
+    src: /lib/x86_64-linux-gnu/libffi.so.8
+    dest: /lib/x86_64-linux-gnu/libffi.so
+    state: link
