@@ -10,7 +10,7 @@
     - curl
     - git
     - protobuf-compiler
-    - libev-dev 
+    - libev-dev
     - libgmp-dev
     - cargo
     - rustup

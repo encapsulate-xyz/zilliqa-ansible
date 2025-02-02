@@ -27,4 +27,3 @@
         - name: Include sync_node role
           ansible.builtin.include_role:
             name: sync_node
-  
