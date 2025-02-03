@@ -59,7 +59,7 @@
     mode: "0644"
 
 - name: Ensure load_checkpoint configuration is set
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: "{{ sync_node_config_file_path }}"
     marker: "# {mark} CHECKPOINT CONFIGURATION"
     block: |
