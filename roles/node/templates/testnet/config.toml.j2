@@ -13,7 +13,7 @@ apis = ["blockNumber"]
 namespace = "eth"
 
 [[nodes.api_servers]]
-enabled_apis = ["admin", "erigon", "eth", "net", "ots", "trace", "txpool", "web3", "zilliqa"]
+enabled_apis = ["admin", "debug", "erigon", "eth", "net", "ots", "trace", "txpool", "web3", "zilliqa"]
 port = {{ zilliqa.validator.ports.api_port }}
 
 [nodes.allowed_timestamp_skew]
@@ -33,18 +33,22 @@ scilla_address = "http://localhost:{{ zilliqa.scilla.ports.scilla_port }}"
 scilla_stdlib_dir = "{{ node_scilla_lib_dir }}"
 
 [[nodes.consensus.forks]]
-at_height = 0
-call_mode_1_sets_caller_to_parent_caller = false
-failed_scilla_call_from_gas_exempt_caller_causes_revert = false
-scilla_contract_creation_increments_account_balance = false
-scilla_messages_can_call_evm_contracts = false
+at_height = 5342400
+failed_scilla_call_from_gas_exempt_caller_causes_revert = true
+call_mode_1_sets_caller_to_parent_caller = true
 
 [[nodes.consensus.forks]]
-at_height = 5342400
-call_mode_1_sets_caller_to_parent_caller = true
-failed_scilla_call_from_gas_exempt_caller_causes_revert = true
-scilla_contract_creation_increments_account_balance = false
-scilla_messages_can_call_evm_contracts = false
+at_height = 7966800
+scilla_messages_can_call_evm_contracts = true
+scilla_contract_creation_increments_account_balance = true
 
 [nodes.consensus.contract_upgrade_block_heights]
 deposit_v3 = 5342400
+deposit_v4 = 7966800
+
+[nodes.consensus.genesis_fork]
+at_height = 0
+call_mode_1_sets_caller_to_parent_caller = false
+failed_scilla_call_from_gas_exempt_caller_causes_revert = false
+scilla_messages_can_call_evm_contracts = false
+scilla_contract_creation_increments_account_balance = false
