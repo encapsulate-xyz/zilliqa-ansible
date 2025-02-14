@@ -4,3 +4,4 @@
 # Environment file names
 stats_agent_environment_general_file_name: "{{ service_identifier }}.env"
 stats_agent_environment_secrets_file_name: "{{ service_identifier }}.secrets.env"
+stats_agent_push_metrics_file_name: push_metrics.sh
