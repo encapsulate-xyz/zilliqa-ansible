@@ -22,6 +22,6 @@
         - name: Include common handlers
           ansible.builtin.include_role:
             name: common
-        - name: Include node role
+        - name: Include scilla role
           ansible.builtin.include_role:
             name: scilla
