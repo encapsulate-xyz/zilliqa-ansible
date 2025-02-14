@@ -6,8 +6,8 @@
     directories: "{{ stats_agent_directories }}"
     log_file_path: "{{ stats_agent_log_file_path }}"
 
-- name: Include clone repo task
-  ansible.builtin.include_tasks: clone_repo.yml
+- name: Include clone_and_install_dependencies task
+  ansible.builtin.include_tasks: clone_and_install_dependencies.yml
 
 - name: Copy general env file
   ansible.builtin.template:
@@ -16,6 +16,16 @@
     owner: "{{ service_identifier }}"
     group: "{{ service_identifier }}"
     mode: "0644"
+  notify:
+    - Restart service
+
+- name: Copy secret env file
+  ansible.builtin.template:
+    src: secrets.env.j2
+    dest: "{{ stats_agent_environment_secrets_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0600"
   notify:
     - Restart service
 
