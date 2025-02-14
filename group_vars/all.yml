@@ -16,6 +16,9 @@ default_node_types:
   - validator
   - default
 
+nvm:
+  path: /opt/nvm
+
 zilliqa:
   validator:
     source_url: https://github.com/Zilliqa/zq2
@@ -27,3 +30,5 @@ zilliqa:
     source_url: asia-docker.pkg.dev/prj-p-devops-services-tvwmrf63/zilliqa-public/zq2
     ports:
       scilla_port: 3001
+  statsagent:
+    source_url: https://github.com/Zilliqa/eth-net-intelligence-api
