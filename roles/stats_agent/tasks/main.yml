@@ -1,0 +1,31 @@
+---
+- name: Include user creation task
+  ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
+  vars:
+    home: "{{ stats_agent_home_dir }}"
+    directories: "{{ stats_agent_directories }}"
+    log_file_path: "{{ stats_agent_log_file_path }}"
+
+- name: Include clone repo task
+  ansible.builtin.include_tasks: clone_repo.yml
+
+- name: Copy general env file
+  ansible.builtin.template:
+    src: general.env.j2
+    dest: "{{ stats_agent_environment_general_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
+  notify:
+    - Restart service
+
+- name: Copy stats_agent systemd service file
+  ansible.builtin.template:
+    src: systemd.service.j2
+    dest: /etc/systemd/system/{{ service_identifier }}.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload service
+    - Restart service
