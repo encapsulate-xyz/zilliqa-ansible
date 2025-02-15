@@ -2,8 +2,8 @@
 
 # Set variables
 RPC_URL="http://localhost:{{ zilliqa.validator.ports.api_port }}/"
-PUSHGATEWAY_URL="http://{{ monitor_server_dns }}:9091/metrics/job/zilliqa_metrics"
-LOG_FILE="{{ stats_agent_log_dir }}/push_metrics.log"
+PUSHGATEWAY_URL="http://{{ monitor_server_dns }}:9091/metrics/job/chain_exporter"
+LOG_FILE="{{ stats_agent_log_dir }}/push-metrics.log"
 
 # Fetch the current block height
 BLOCK_HEIGHT=$(curl -s -X POST --url "$RPC_URL" \
