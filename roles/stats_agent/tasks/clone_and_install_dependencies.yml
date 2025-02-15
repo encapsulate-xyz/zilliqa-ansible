@@ -1,0 +1,24 @@
+---
+- name: Create the bin folder
+  ansible.builtin.file:
+    path: "{{ stats_agent_home_dir }}/bin"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Clone the repository
+  ansible.builtin.git:
+    repo: "{{ zilliqa.statsagent.source_url }}"
+    dest: "{{ stats_agent_home_dir }}/bin"
+    version: "{{ zilliqa.statsagent.version }}"
+    force: true
+
+- name: Install npm dependencies
+  ansible.builtin.shell: |
+    source {{ nvm.path }}/nvm.sh
+    npm install
+  args:
+    chdir: "{{ stats_agent_home_dir }}/bin"
+    executable: /bin/bash
+  changed_when: false

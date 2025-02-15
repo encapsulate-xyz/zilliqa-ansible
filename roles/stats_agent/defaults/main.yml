@@ -1,0 +1,21 @@
+---
+# maintains directories and paths
+stats_agent_home_dir: /opt/{{ service_identifier }}
+
+stats_agent_bin_dir: "{{ stats_agent_home_dir }}/bin"
+stats_agent_env_dir: "{{ stats_agent_home_dir }}/env"
+stats_agent_log_dir: "{{ stats_agent_home_dir }}/log"
+
+stats_agent_directories:
+  - "{{ stats_agent_home_dir }}"
+  - "{{ stats_agent_env_dir }}"
+  - "{{ stats_agent_log_dir }}"
+
+stats_agent_log_file_path: "{{ stats_agent_log_dir }}/{{ service_identifier }}.log"
+
+stats_agent_environment_general_file_path: "{{ stats_agent_env_dir }}/{{ stats_agent_environment_general_file_name }}"
+stats_agent_environment_secrets_file_path: "{{ stats_agent_env_dir }}/{{ stats_agent_environment_secrets_file_name }}"
+
+stats_agent_push_metrics_file_path: "{{ stats_agent_home_dir }}/{{ stats_agent_push_metrics_file_name }}"
+
+stats_agent_nodejs_dir: "{{ nvm.path }}/versions/node/{{ zilliqa.statsagent.node.version }}/bin"

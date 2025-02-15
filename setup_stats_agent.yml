@@ -1,12 +1,12 @@
 ---
-- name: Set up scilla
+- name: Set up Stats Agent
   hosts: all
   become: true
   gather_facts: true
   vars_files:
     - group_vars/all.yml
     - group_vars/vault.yml
-    - group_vars/{{ env }}.yml
+    - group_vars/default.yml
 
   pre_tasks:
     - name: Setup Pre Tasks
@@ -14,14 +14,14 @@
         - name: Include environment setup tasks
           ansible.builtin.include_tasks: tasks/setup_environment.yml
           vars:
-            type: scilla
+            type: statsagent
 
   tasks:
-    - name: Run scilla role
+    - name: Run stats_agent role
       block:
         - name: Include common handlers
           ansible.builtin.include_role:
             name: common
-        - name: Include scilla role
+        - name: Include stats_agent role
           ansible.builtin.include_role:
-            name: scilla
+            name: stats_agent
