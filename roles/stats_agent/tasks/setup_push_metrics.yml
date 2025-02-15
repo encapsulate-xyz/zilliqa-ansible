@@ -12,5 +12,5 @@
     name: "Push Zilliqa Metrics"
     minute: "*"
     hour: "*"
-    job: "{{ stats_agent_push_metrics_file_path }}"
+    job: "{{ stats_agent_push_metrics_file_path }} >> {{ stats_agent_push_metrics_log_file_path }} 2>&1"
     user: root
