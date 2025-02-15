@@ -1,7 +1,7 @@
 ---
 - name: Create the bin folder
   ansible.builtin.file:
-    path: "{{ stats_agent_home_dir }}/bin"
+    path: "{{ stats_agent_bin_dir }}"
     state: directory
     owner: root
     group: root
@@ -10,7 +10,7 @@
 - name: Clone the repository
   ansible.builtin.git:
     repo: "{{ zilliqa.statsagent.source_url }}"
-    dest: "{{ stats_agent_home_dir }}/bin"
+    dest: "{{ stats_agent_bin_dir }}"
     version: "{{ zilliqa.statsagent.version }}"
     force: true
 
@@ -19,6 +19,13 @@
     source {{ nvm.path }}/nvm.sh
     npm install
   args:
-    chdir: "{{ stats_agent_home_dir }}/bin"
+    chdir: "{{ stats_agent_bin_dir }}"
     executable: /bin/bash
   changed_when: false
+
+- name: Set ownership of bin directory
+  ansible.builtin.file:
+    path: "{{ stats_agent_bin_dir }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    recurse: true
