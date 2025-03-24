@@ -7,3 +7,4 @@
 
 - name: Import setup_stats_agent playbook
   ansible.builtin.import_playbook: setup_stats_agent.yml
+  when: setup_stats_agent | default(false) | bool
