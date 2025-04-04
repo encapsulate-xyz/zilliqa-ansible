@@ -5,6 +5,10 @@
 - name: Import setup_node playbook
   ansible.builtin.import_playbook: setup_node.yml
 
+- name: Import sync_node playbook
+  ansible.builtin.import_playbook: sync_node.yml
+  when: sync_node | default(false) | bool
+
 - name: Import setup_stats_agent playbook
   ansible.builtin.import_playbook: setup_stats_agent.yml
   when: setup_stats_agent | default(false) | bool
