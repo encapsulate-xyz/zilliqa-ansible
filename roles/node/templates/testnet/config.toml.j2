@@ -56,6 +56,12 @@ only_mutated_accounts_update_state = true
 scilla_block_number_returns_current_block = true
 scilla_maps_are_encoded_correctly = true
 
+[[nodes.consensus.forks]]
+at_height = 9907148
+apply_state_changes_only_if_transaction_succeeds = true
+apply_scilla_delta_when_evm_succeeded = true
+scilla_deduct_funds_from_actual_sender = true
+
 [nodes.consensus.contract_upgrades.deposit_v3]
 height = 5342400
 
@@ -78,3 +84,6 @@ scilla_call_gas_exempt_addrs = []
 scilla_block_number_returns_current_block = false
 scilla_maps_are_encoded_correctly = false
 transfer_gas_fee_to_zero_account = false
+apply_state_changes_only_if_transaction_succeeds = false
+apply_scilla_delta_when_evm_succeeded = false
+scilla_deduct_funds_from_actual_sender = false
