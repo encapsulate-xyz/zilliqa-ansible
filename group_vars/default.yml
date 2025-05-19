@@ -1,7 +1,7 @@
 ---
 zilliqa:
   statsagent:
-    version: v0.0.2
+    version: v0.0.4
     node:
       version: v18.20.5
 
