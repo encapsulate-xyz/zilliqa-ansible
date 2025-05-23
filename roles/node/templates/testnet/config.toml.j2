@@ -5,17 +5,6 @@ bootstrap_address = ["12D3KooWMoQviBdwqZuFrZXCLWpgftkwVZqbcf7zYYPQG9PzV4ub", "/d
 eth_chain_id = 32770
 data_dir = "{{ node_data_dir }}"
 
-[[nodes.api_servers]]
-port = {{ zilliqa.validator.ports.json_rpc_port }}
-
-[[nodes.api_servers.enabled_apis]]
-namespace = "eth"
-apis = ["blockNumber"]
-
-[[nodes.api_servers]]
-port = {{ zilliqa.validator.ports.api_port }}
-enabled_apis = ["admin", "debug", "erigon", "eth", "net", "ots", "trace", "txpool", "web3", "zilliqa"]
-
 [nodes.allowed_timestamp_skew]
 secs = 60
 nanos = 0
@@ -57,6 +46,7 @@ transfer_gas_fee_to_zero_account = false
 apply_state_changes_only_if_transaction_succeeds = false
 apply_scilla_delta_when_evm_succeeded = false
 scilla_deduct_funds_from_actual_sender = false
+fund_accounts_from_zero_account = []
 
 [[nodes.consensus.forks]]
 at_height = 4277188
@@ -93,3 +83,18 @@ transfer_gas_fee_to_zero_account = true
 apply_state_changes_only_if_transaction_succeeds = true
 apply_scilla_delta_when_evm_succeeded = true
 scilla_deduct_funds_from_actual_sender = true
+
+[[nodes.consensus.forks]]
+at_height = 10884800
+fund_accounts_from_zero_account = [["0x6F5d14cBe74547124321f34eA14016f96372c4aE", "100000000000000000000000000"]]
+
+[[nodes.api_servers]]
+port = {{ zilliqa.validator.ports.json_rpc_port }}
+
+[[nodes.api_servers.enabled_apis]]
+namespace = "eth"
+apis = ["blockNumber"]
+
+[[nodes.api_servers]]
+port = {{ zilliqa.validator.ports.api_port }}
+enabled_apis = ["admin", "debug", "erigon", "eth", "net", "ots", "trace", "txpool", "web3", "zilliqa"]
