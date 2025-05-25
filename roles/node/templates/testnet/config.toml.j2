@@ -4,8 +4,6 @@ bootstrap_address = ["12D3KooWMoQviBdwqZuFrZXCLWpgftkwVZqbcf7zYYPQG9PzV4ub", "/d
 [[nodes]]
 eth_chain_id = 32770
 data_dir = "{{ node_data_dir }}"
-consensus.scilla_address = "http://localhost:{{ zilliqa.scilla.ports.scilla_port }}"
-consensus.scilla_stdlib_dir = "{{ node_scilla_lib_dir }}"
 
 [nodes.allowed_timestamp_skew]
 secs = 60
@@ -19,6 +17,8 @@ blocks_per_hour = 3600
 minimum_stake = "10_000_000_000_000_000_000_000_000"
 eth_block_gas_limit = 84000000
 gas_price = "4_761_904_800_000"
+scilla_address = "http://localhost:{{ zilliqa.scilla.ports.scilla_port }}"
+scilla_stdlib_dir = "{{ node_scilla_lib_dir }}"
 
 [nodes.consensus.contract_upgrades.deposit_v3]
 height = 5342400
