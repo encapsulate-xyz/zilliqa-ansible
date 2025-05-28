@@ -3,7 +3,7 @@
 stats_agent_home_dir: /opt/{{ service_identifier }}
 
 stats_agent_bin_dir: "{{ stats_agent_home_dir }}/bin"
-stats_agent_env_dir: "{{ stats_agent_home_dir }}/environmen"
+stats_agent_env_dir: "{{ stats_agent_home_dir }}/environment"
 stats_agent_log_dir: "{{ stats_agent_home_dir }}/log"
 
 stats_agent_directories:
