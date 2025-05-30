@@ -3,7 +3,7 @@
 scilla_home_dir: /opt/{{ service_identifier }}
 
 scilla_bin_dir: "{{ scilla_home_dir }}/bin"
-scilla_env_dir: "{{ scilla_home_dir }}/env"
+scilla_env_dir: "{{ scilla_home_dir }}/environment"
 scilla_lib_dir: "{{ scilla_home_dir }}/lib"
 scilla_log_dir: "{{ scilla_home_dir }}/log"
 
