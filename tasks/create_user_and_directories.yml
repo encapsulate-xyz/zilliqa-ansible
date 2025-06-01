@@ -29,4 +29,4 @@
     state: touch
     owner: "{{ service_identifier }}"
     group: "{{ service_identifier }}"
-    mode: "0664"
+    mode: "0644"
