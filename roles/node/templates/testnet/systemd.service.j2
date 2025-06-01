@@ -4,6 +4,9 @@ Description={{ service_identifier }}
 [Service]
 User={{ service_identifier }}
 Group={{ service_identifier }}
+# Apply umask 002 so that socket files created by Zilliqa
+# have appropriate permissions for use by Scilla
+UMask=002
 WorkingDirectory={{ node_home_dir }}
 EnvironmentFile={{ node_environment_secret_file_path }}
 EnvironmentFile={{ node_environment_general_file_path }}
