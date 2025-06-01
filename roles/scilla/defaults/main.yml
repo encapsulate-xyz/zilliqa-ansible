@@ -7,12 +7,15 @@ scilla_env_dir: "{{ scilla_home_dir }}/environment"
 scilla_lib_dir: "{{ scilla_home_dir }}/lib"
 scilla_log_dir: "{{ scilla_home_dir }}/log"
 
+scilla_ext_lib_dir: "{{ scilla_lib_dir }}/extra"
+
 scilla_directories:
   - "{{ scilla_home_dir }}"
   - "{{ scilla_bin_dir }}"
   - "{{ scilla_env_dir }}"
   - "{{ scilla_lib_dir }}"
   - "{{ scilla_log_dir }}"
+  - "{{ scilla_ext_lib_dir }}"
 
 scilla_log_file_path: "{{ scilla_log_dir }}/{{ service_identifier }}.log"
 
