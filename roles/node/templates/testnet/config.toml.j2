@@ -18,7 +18,9 @@ minimum_stake = "10_000_000_000_000_000_000_000_000"
 eth_block_gas_limit = 84000000
 gas_price = "4_761_904_800_000"
 scilla_address = "http://localhost:{{ zilliqa.scilla.ports.scilla_port }}"
-scilla_stdlib_dir = "{{ node_scilla_lib_dir }}"
+scilla_stdlib_dir = "{{ scilla_lib_dir }}"
+scilla_server_socket_directory= "{{ node_socket_dir }}"
+scilla_ext_libs_path= "{{ scilla_ext_lib_dir }}"
 
 [nodes.consensus.contract_upgrades.deposit_v3]
 height = 5342400

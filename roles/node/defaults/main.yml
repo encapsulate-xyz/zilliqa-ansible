@@ -6,6 +6,7 @@ node_bin_dir: "{{ node_home_dir }}/bin"
 node_config_dir: "{{ node_home_dir }}/config"
 node_data_dir: "{{ node_home_dir }}/data"
 node_env_dir: "{{ node_home_dir }}/environment"
+node_socket_dir: "{{ node_home_dir }}/socket"
 node_log_dir: "{{ node_home_dir }}/log"
 
 node_directories:
@@ -14,9 +15,8 @@ node_directories:
   - "{{ node_config_dir }}"
   - "{{ node_data_dir }}"
   - "{{ node_env_dir }}"
+  - "{{ node_socket_dir }}"
   - "{{ node_log_dir }}"
-
-node_scilla_lib_dir: /opt/zilliqa-scilla/lib
 
 node_config_file_path: "{{ node_config_dir }}/{{ node_config_file_name }}"
 node_log_file_path: "{{ node_log_dir }}/{{ service_identifier }}.log"
