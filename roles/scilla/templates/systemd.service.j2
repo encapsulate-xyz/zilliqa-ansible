@@ -6,7 +6,8 @@ User={{ service_identifier }}
 Group={{ service_identifier }}
 WorkingDirectory={{ scilla_home_dir }}
 EnvironmentFile={{ scilla_environment_general_file_path }}
-ExecStart={{ scilla_bin_dir }}/{{ service_identifier }} --port {{ zilliqa.scilla.ports.scilla_port }} --verbose
+ExecStart=/bin/bash -c 'exec {{ scilla_bin_dir }}/{{ service_identifier }} --port {{ zilliqa.scilla.ports.scilla_port }} --verbose 2>&1 \
+    | /usr/bin/ts "[%%Y-%%m-%%d %%H:%%M:%%S]"'
 Restart=always
 RestartSec=4
 LimitNOFILE=65536

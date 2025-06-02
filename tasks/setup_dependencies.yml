@@ -14,3 +14,4 @@
     - libgmp-dev
     - cargo
     - rustup
+    - moreutils

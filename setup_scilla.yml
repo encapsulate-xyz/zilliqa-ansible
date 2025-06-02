@@ -15,6 +15,8 @@
           ansible.builtin.include_tasks: tasks/setup_environment.yml
           vars:
             type: scilla
+        - name: Include dependencies setup tasks
+          ansible.builtin.include_tasks: tasks/setup_dependencies.yml
 
   tasks:
     - name: Run scilla role
