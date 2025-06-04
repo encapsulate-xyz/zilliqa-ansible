@@ -8,5 +8,4 @@ all:
       hosts:
         validator.zilliqa.testnet.encapsulate.xyz:
           type: validator
-          scilla_ext_lib_dir: /opt/zilliqa-scilla/lib/extra
           scilla_lib_dir: /opt/zilliqa-scilla/lib
