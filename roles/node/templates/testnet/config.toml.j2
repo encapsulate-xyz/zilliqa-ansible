@@ -6,6 +6,9 @@ bootstrap_address = ["12D3KooWMoQviBdwqZuFrZXCLWpgftkwVZqbcf7zYYPQG9PzV4ub", "/d
 eth_chain_id = 32770
 data_dir = "{{ node_data_dir }}"
 
+[nodes.sync]
+prune_interval = 10000
+
 [nodes.allowed_timestamp_skew]
 secs = 60
 nanos = 0
