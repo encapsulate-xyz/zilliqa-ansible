@@ -12,6 +12,4 @@
     - protobuf-compiler
     - libev-dev
     - libgmp-dev
-    - cargo
-    - rustup
     - moreutils

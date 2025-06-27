@@ -19,6 +19,10 @@ default_node_types:
 nvm:
   path: /opt/nvm
 
+rust:
+  root: /opt
+  path: /opt/cargo
+
 zilliqa:
   validator:
     source_url: https://github.com/Zilliqa/zq2

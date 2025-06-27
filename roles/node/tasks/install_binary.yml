@@ -17,6 +17,10 @@
   args:
     chdir: "{{ tmp_dir }}/{{ service_identifier }}"
     creates: "{{ tmp_dir }}/{{ project }}/target/release/zilliqa"
+  environment:
+    PATH: "{{ rust.path }}/bin:{{ ansible_env.PATH }}"
+    RUSTUP_HOME: "{{ rust.root }}/cargo"
+    CARGO_HOME: "{{ rust.root }}/cargo"
 
 - name: Copy the built binary to the target directory
   ansible.builtin.copy:
