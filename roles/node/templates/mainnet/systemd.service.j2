@@ -1,0 +1,25 @@
+[Unit]
+Description={{ service_identifier }}
+
+[Service]
+User={{ service_identifier }}
+Group={{ service_identifier }}
+# Overriding the default 022 mask:
+#   022  ⟶  files 644 / dirs-sockets 755   →  only owner can write
+#   002  ⟶  files 664 / dirs-sockets 775   →  group can write, “others” still read-only
+# In our setup this works because the daemon requests 0777/0775 when it
+# creates the socket file, so the group-write bit survives the 002 mask.
+UMask=002
+WorkingDirectory={{ node_home_dir }}
+EnvironmentFile={{ node_environment_secret_file_path }}
+EnvironmentFile={{ node_environment_general_file_path }}
+ExecStart={{ node_bin_dir }}/{{ service_identifier }} --config-file {{ node_config_file_path }} $PRIVATE_KEY
+Restart=always
+RestartSec=4
+LimitNOFILE=65536
+MemoryMax=64G
+StandardOutput=append:{{ node_log_file_path }}
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target
