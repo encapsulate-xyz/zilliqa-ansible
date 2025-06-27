@@ -7,3 +7,7 @@ zilliqa:
     api_url: https://api.zq2-protomainnet.zilliqa.com
   scilla:
     version: v0.10.2
+  stats_agent:
+    ws_server: "ws://stats.zq2-protomainnet.zilliqa.com"
+    peer_id: "12D3KooWPLj6mLuDY1zhc9FRKY3YoJ8BPd61mh7Q8yZZU5DkBv3G"
+
