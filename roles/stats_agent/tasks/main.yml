@@ -9,9 +9,6 @@
 - name: Include clone_and_install_dependencies task
   ansible.builtin.include_tasks: clone_and_install_dependencies.yml
 
-- name: Include setup_push_metrics task
-  ansible.builtin.include_tasks: setup_push_metrics.yml
-
 - name: Copy general env file
   ansible.builtin.template:
     src: general.env.j2
