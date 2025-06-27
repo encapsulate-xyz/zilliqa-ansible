@@ -13,7 +13,7 @@ stats_agent_directories:
 
 stats_agent_log_file_path: "{{ stats_agent_log_dir }}/{{ service_identifier }}.log"
 
-stats_agent_push_metrics_log_file_path: "{{ stats_agent_log_dir }}/push-metrics.log"
+stats_agent_push_metrics_log_file_path: "{{ stats_agent_log_dir }}/{{ service_identifier }}-push-metrics.log"
 
 stats_agent_environment_general_file_path: "{{ stats_agent_env_dir }}/{{ stats_agent_environment_general_file_name }}"
 stats_agent_environment_secrets_file_path: "{{ stats_agent_env_dir }}/{{ stats_agent_environment_secrets_file_name }}"
