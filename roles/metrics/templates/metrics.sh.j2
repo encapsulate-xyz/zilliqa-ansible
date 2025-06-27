@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Set variables
+RPC_URL="http://localhost:{{ zilliqa.validator.ports.api_port }}/"
+PUSHGATEWAY_URL="http://{{ monitor_server_dns }}:9091/metrics/job/chain_exporter/project/{{ project }}/env/{{ env }}"
+
+# Fetch the current block height
+BLOCK_HEIGHT=$(curl -s -X POST --url "$RPC_URL" \
+    --header 'Content-Type: application/json' \
+    --data '{"method":"eth_blockNumber","params":[],"id":1,"jsonrpc":"2.0"}' | jq -r '.result' | xargs printf "%d\n")
+
+# Fetch the client version and extract just the version part (v0.6.1)
+CLIENT_VERSION=$(curl -s -X POST --url "$RPC_URL" \
+    --header 'Content-Type: application/json' \
+    --data '{"method":"web3_clientVersion","params":[],"id":1,"jsonrpc":"2.0"}' | jq -r '.result' | sed 's/^.*\/v\(.*\)$/v\1/')
+
+# Fetch the peer count
+PEER_COUNT=$(curl -s -X POST --url "$RPC_URL" \
+    --header 'Content-Type: application/json' \
+    --data '{"method":"net_peerCount","params":[],"id":1,"jsonrpc":"2.0"}' | jq -r '.result' | xargs printf "%d\n")
+
+# Fetch sync status
+SYNCING_STATUS=$(curl -s -X POST --url "$RPC_URL" \
+    --header 'Content-Type: application/json' \
+    --data '{"method":"eth_syncing","params":[],"id":1,"jsonrpc":"2.0"}' | jq -r '.result')
+
+# Check if sync status is false (not syncing)
+if [[ "$SYNCING_STATUS" == "false" ]]; then
+    SYNC_STATUS="0"
+else
+    SYNC_STATUS="1"
+fi
+
+# Print fetched values
+echo "Last Pushed at: $(date +"%Y-%m-%d %H:%M:%S")"
+
+# Push the metrics to Prometheus Pushgateway
+cat <<EOF | curl -s --data-binary @- "$PUSHGATEWAY_URL"
+zilliqa_latest_block_height{type="validator"} $BLOCK_HEIGHT
+zilliqa_peer_count{type="validator"} $PEER_COUNT
+zilliqa_sync_status{type="validator"} $SYNC_STATUS
+zilliqa_client_info{type="validator", version="$CLIENT_VERSION"} 1
+EOF

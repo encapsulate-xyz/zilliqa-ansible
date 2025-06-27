@@ -1,0 +1,10 @@
+[Unit]
+Description=Run zilliqa metrics service for every 1 minute
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
