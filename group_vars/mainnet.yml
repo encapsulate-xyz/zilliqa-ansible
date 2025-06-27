@@ -5,6 +5,8 @@ zilliqa:
     version: v0.11.0
     checkpoint_url: https://checkpoints.zilliqa.com
     api_url: https://api.zq2-mainnet.zilliqa.com
+    rust:
+      version: 1.87.0
   scilla:
     version: v0.11.0
   stats_agent:
