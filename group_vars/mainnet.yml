@@ -9,4 +9,4 @@ zilliqa:
     version: v0.11.0
   stats_agent:
     ws_server: "ws://stats.zq2-mainnet.zilliqa.com"
-    peer_id: ""
+    peer_id: "12D3KooWLpToFzynLqXuaf3FTnVmSMA8faj2nwzXNx7cnzWfcU7P"
