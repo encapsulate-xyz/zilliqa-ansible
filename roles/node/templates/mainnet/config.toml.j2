@@ -62,7 +62,7 @@ at_height = 4770088
 executable_blocks = true
 
 [[nodes.consensus.forks]]
-at_height = 4854412
+at_height = 4854500
 scilla_delta_maps_are_applied_correctly = true
 
 [[nodes.consensus.forks]]
@@ -81,5 +81,5 @@ namespace = "eth"
 apis = ["blockNumber"]
 
 [[nodes.api_servers]]
-port = {{ zilliqa.validator.ports.api_port }}
+port = {{ zilliqa.validator.ports.json_rpc_port }}
 enabled_apis = ["admin", "debug", "erigon", "eth", "net", "ots", "trace", "txpool", "web3", "zilliqa"]
