@@ -2,13 +2,13 @@
 # maintains versions and can overwrite all.yml
 zilliqa:
   validator:
-    version: v0.12.0
+    version: v0.12.1
     checkpoint_url: https://checkpoints.zilliqa.com
     api_url: https://api.zq2-mainnet.zilliqa.com
     rust:
       version: 1.87.0
   scilla:
-    version: v0.12.0
+    version: v0.12.1
   stats_agent:
     ws_server: "ws://stats.zq2-mainnet.zilliqa.com"
     peer_id: "12D3KooWLpToFzynLqXuaf3FTnVmSMA8faj2nwzXNx7cnzWfcU7P"
