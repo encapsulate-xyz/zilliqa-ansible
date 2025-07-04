@@ -1,0 +1,15 @@
+[Unit]
+Description={{ service_identifier }}
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory={{ sync_monitor_home_dir }}
+ExecStart=/bin/bash -c '{{ sync_monitor_script_file_path }} 2>/dev/null'
+LimitNOFILE=65536
+MemoryMax=64G
+StandardOutput=append:{{ sync_monitor_log_file_path }}
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

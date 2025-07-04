@@ -1,0 +1,15 @@
+---
+# maintains directories and paths
+sync_monitor_home_dir: /opt/{{ service_identifier }}
+
+sync_monitor_bin_dir: "{{ sync_monitor_home_dir }}/bin"
+sync_monitor_log_dir: "{{ sync_monitor_home_dir }}/log"
+
+sync_monitor_directories:
+  - "{{ sync_monitor_home_dir }}"
+  - "{{ sync_monitor_bin_dir }}"
+  - "{{ sync_monitor_log_dir }}"
+
+sync_monitor_log_file_path: "{{ sync_monitor_log_dir }}/{{ service_identifier }}.log"
+
+sync_monitor_script_file_path: "{{ sync_monitor_bin_dir }}/{{ sync_monitor_script_file_name }}"
