@@ -6,10 +6,6 @@ bootstrap_address = ["12D3KooWLQ9Uu31ZVn2wMwt5HgunwHYRh4V12cLuTa9qqyFKxkqS", "/d
 eth_chain_id = 32769
 data_dir = "{{ node_data_dir }}"
 
-[nodes.sync]
-prune_interval = 10000
-ignore_passive = true
-
 [nodes.allowed_timestamp_skew]
 secs = 60
 nanos = 0
@@ -56,6 +52,10 @@ scilla_deduct_funds_from_actual_sender = true
 fund_accounts_from_zero_account = []
 scilla_delta_maps_are_applied_correctly = false
 scilla_server_unlimited_response_size = false
+scilla_failed_txn_correct_balance_deduction = false
+scilla_transition_proper_order = false
+evm_to_scilla_value_transfer_zero = false
+restore_xsgd_contract = false
 
 [[nodes.consensus.forks]]
 at_height = 4770088
@@ -72,6 +72,17 @@ scilla_call_gas_exempt_addrs = ["0x95347b860Bd49818AFAccCA8403C55C23e7BB9ED", "0
 [[nodes.consensus.forks]]
 at_height = 4986000
 scilla_server_unlimited_response_size = true
+
+[[nodes.consensus.forks]]
+at_height = 5528557
+scilla_failed_txn_correct_balance_deduction = true
+scilla_transition_proper_order = true
+evm_to_scilla_value_transfer_zero = true
+restore_xsgd_contract = true
+
+[nodes.sync]
+prune_interval = 10000
+ignore_passive = true
 
 [[nodes.api_servers]]
 port = {{ zilliqa.validator.ports.json_rpc_port }}
