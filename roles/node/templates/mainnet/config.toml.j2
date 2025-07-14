@@ -56,6 +56,9 @@ scilla_failed_txn_correct_balance_deduction = false
 scilla_transition_proper_order = false
 evm_to_scilla_value_transfer_zero = false
 restore_xsgd_contract = false
+evm_exec_failure_causes_scilla_precompile_to_fail = false
+revert_restore_xsgd_contract = false
+scilla_fix_contract_code_removal_on_evm_tx = false
 
 [[nodes.consensus.forks]]
 at_height = 4770088
@@ -79,6 +82,11 @@ scilla_failed_txn_correct_balance_deduction = true
 scilla_transition_proper_order = true
 evm_to_scilla_value_transfer_zero = true
 restore_xsgd_contract = true
+
+[[nodes.consensus.forks]]
+at_height = 5910029
+evm_exec_failure_causes_scilla_precompile_to_fail = true
+scilla_fix_contract_code_removal_on_evm_tx = true
 
 [nodes.sync]
 prune_interval = 10000
