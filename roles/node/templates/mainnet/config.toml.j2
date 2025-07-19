@@ -59,6 +59,8 @@ restore_xsgd_contract = false
 evm_exec_failure_causes_scilla_precompile_to_fail = false
 revert_restore_xsgd_contract = false
 scilla_fix_contract_code_removal_on_evm_tx = false
+prevent_zil_transfer_from_evm_to_scilla_contract = false
+restore_ignite_wallet_contracts = false
 
 [[nodes.consensus.forks]]
 at_height = 4770088
@@ -87,6 +89,11 @@ restore_xsgd_contract = true
 at_height = 5910029
 evm_exec_failure_causes_scilla_precompile_to_fail = true
 scilla_fix_contract_code_removal_on_evm_tx = true
+
+[[nodes.consensus.forks]]
+at_height = 6283082
+prevent_zil_transfer_from_evm_to_scilla_contract = true
+restore_ignite_wallet_contracts = true
 
 [nodes.sync]
 prune_interval = 10000
