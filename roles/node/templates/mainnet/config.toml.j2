@@ -63,6 +63,8 @@ restore_ignite_wallet_contracts = false
 prevent_zil_transfer_from_evm_to_scilla_contract = false
 scilla_failed_txn_correct_gas_fee_charged = false
 check_minimum_gas_price = false
+inject_access_list = false
+use_max_gas_priority_fee = false
 
 [[nodes.consensus.forks]]
 at_height = 4770088
@@ -101,6 +103,11 @@ restore_ignite_wallet_contracts = true
 at_height = 6771996
 scilla_failed_txn_correct_gas_fee_charged = true
 check_minimum_gas_price = true
+
+[[nodes.consensus.forks]]
+at_height = 7000000
+inject_access_list = true
+use_max_gas_priority_fee = true
 
 [nodes.sync]
 prune_interval = 10000
