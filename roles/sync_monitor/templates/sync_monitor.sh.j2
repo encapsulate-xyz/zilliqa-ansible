@@ -1,17 +1,27 @@
 #!/bin/bash
 
 # Set variables
-RPC_URL="http://localhost:{{ zilliqa.validator.ports.api_port }}/"
+RPC_URL="http://localhost:{{ zilliqa.validator.ports.api_port }}"
+
+# Timestamped logger
+log() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+}
 
 # Fetch sync status
 SYNCING_STATUS=$(curl -s -X POST --url "$RPC_URL" \
     --header 'Content-Type: application/json' \
     --data '{"method":"eth_syncing","params":[],"id":1,"jsonrpc":"2.0"}' | jq -r '.result')
 
-if [[ "$SYNCING_STATUS" == "false" ]]; then
-    echo "$(date +"%Y-%m-%d %H:%M:%S") Node is fully synced. No action needed."
-else
-    echo "$(date +"%Y-%m-%d %H:%M:%S") Node is syncing or stuck. Restarting service."
+# Fetch the peer count
+PEER_COUNT=$(curl -s -X POST --url "$RPC_URL" \
+    --header 'Content-Type: application/json' \
+    --data '{"method":"net_peerCount","params":[],"id":1,"jsonrpc":"2.0"}' | jq -r '.result' | xargs printf "%d\n")
+
+if [[ "$PEER_COUNT" -eq 0 || "$SYNCING_STATUS" != "false" ]]; then
+    log "Node is syncing or stuck. Restarting service.""
     systemctl restart zilliqa.service
-    echo "$(date +"%Y-%m-%d %H:%M:%S") Restared Service."
+    log "Restarted zilliqa.service.""
+else
+    log "Node is fully synced. No action needed."
 fi
