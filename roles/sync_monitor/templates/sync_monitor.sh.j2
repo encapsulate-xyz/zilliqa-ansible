@@ -19,9 +19,9 @@ PEER_COUNT=$(curl -s -X POST --url "$RPC_URL" \
     --data '{"method":"net_peerCount","params":[],"id":1,"jsonrpc":"2.0"}' | jq -r '.result' | xargs printf "%d\n")
 
 if [[ "$PEER_COUNT" -eq 0 || "$SYNCING_STATUS" != "false" ]]; then
-    log "Node is syncing or stuck. Restarting service.""
+    log "Node has lost all peer connections or is stuck. Restarting service."
     systemctl restart zilliqa.service
-    log "Restarted zilliqa.service.""
+    log "Restarted zilliqa.service."
 else
     log "Node is fully synced. No action needed."
 fi
