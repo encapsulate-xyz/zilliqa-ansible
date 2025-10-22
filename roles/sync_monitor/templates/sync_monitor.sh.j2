@@ -3,7 +3,6 @@
 # Set variables
 API_URL="http://localhost:{{ zilliqa.validator.ports.api_port }}"
 REMOTE_API_URL="https://api.zilliqa.com"
-THRESHOLD=200
 
 # Timestamped logger
 log() {
@@ -36,25 +35,18 @@ log "Local block height:  $LOCAL_HEIGHT"
 log "Remote block height: $REMOTE_HEIGHT"
 log "Difference: $DIFF blocks"
 
+sleep 90
+
+NEW_LOCAL_HEIGHT=$(get_block_height "$API_URL")
+NEW_DIFF=$((REMOTE_HEIGHT - NEW_LOCAL_HEIGHT))
+
+log "Local block height: $NEW_LOCAL_HEIGHT"
+log "Difference: $NEW_DIFF blocks"
+
 # Check difference threshold
-if (( DIFF > THRESHOLD )); then
-
-  log "Node is behind by more than $THRESHOLD blocks. Restarting service..."
-
+if (( NEW_DIFF > DIFF )); then
+  log "Node block height has been struck. Restarting service..."
   systemctl restart zilliqa.service
-  sleep 60
-
-  # Recheck after restart
-  NEW_LOCAL_HEIGHT=$(get_block_height "$API_URL")
-  NEW_DIFF=$((REMOTE_HEIGHT - NEW_LOCAL_HEIGHT))
-
-  log "Post-restart local block height: $NEW_LOCAL_HEIGHT (Diff: $NEW_DIFF)"
-
-  if (( NEW_DIFF < DIFF )); then
-    log "Node is catching up after restart."
-  else
-    log "Node is still not catching up. Manual intervention required."
-  fi
 else
-  log "Node is healthy. Difference within $THRESHOLD blocks."
+  log "Node is healthy."
 fi
