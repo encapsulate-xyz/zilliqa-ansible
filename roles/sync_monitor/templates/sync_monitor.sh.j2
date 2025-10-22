@@ -1,27 +1,60 @@
 #!/bin/bash
 
 # Set variables
-RPC_URL="http://localhost:{{ zilliqa.validator.ports.api_port }}"
+API_URL="http://localhost:{{ zilliqa.validator.ports.api_port }}"
+REMOTE_API_URL="https://api.zilliqa.com"
+THRESHOLD=200
 
 # Timestamped logger
 log() {
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
 }
 
-# Fetch sync status
-SYNCING_STATUS=$(curl -s -X POST --url "$RPC_URL" \
-    --header 'Content-Type: application/json' \
-    --data '{"method":"eth_syncing","params":[],"id":1,"jsonrpc":"2.0"}' | jq -r '.result')
+# Fetch block height
+get_block_height() {
+  local url="$1"
+  curl -s -X POST "$url" \
+    -H 'Content-Type: application/json' \
+    -d '{"id":1,"jsonrpc":"2.0","method":"GetNumTxBlocks","params":[]}' | jq -r '.result'
+}
 
-# Fetch the peer count
-PEER_COUNT=$(curl -s -X POST --url "$RPC_URL" \
-    --header 'Content-Type: application/json' \
-    --data '{"method":"net_peerCount","params":[],"id":1,"jsonrpc":"2.0"}' | jq -r '.result' | xargs printf "%d\n")
+log "Checking Zilliqa node block height..."
 
-if [[ "$PEER_COUNT" -eq 0 || "$SYNCING_STATUS" != "false" ]]; then
-    log "Node has lost all peer connections or is stuck. Restarting service."
-    systemctl restart zilliqa.service
-    log "Restarted zilliqa.service."
+LOCAL_HEIGHT=$(get_block_height "$API_URL")
+REMOTE_HEIGHT=$(get_block_height "$REMOTE_API_URL")
+
+# Validate results
+if [[ -z "$LOCAL_HEIGHT" || -z "$REMOTE_HEIGHT" || "$LOCAL_HEIGHT" == "null" || "$REMOTE_HEIGHT" == "null" ]]; then
+  log "Failed to fetch block heights. Local: $LOCAL_HEIGHT, Remote: $REMOTE_HEIGHT"
+  exit 1
+fi
+
+# Calculate difference in heights
+DIFF=$((REMOTE_HEIGHT - LOCAL_HEIGHT))
+
+log "Local block height:  $LOCAL_HEIGHT"
+log "Remote block height: $REMOTE_HEIGHT"
+log "Difference: $DIFF blocks"
+
+# Check difference threshold
+if (( DIFF > THRESHOLD )); then
+
+  log "Node is behind by more than $THRESHOLD blocks. Restarting service..."
+
+  systemctl restart zilliqa.service
+  sleep 60
+
+  # Recheck after restart
+  NEW_LOCAL_HEIGHT=$(get_block_height "$API_URL")
+  NEW_DIFF=$((REMOTE_HEIGHT - NEW_LOCAL_HEIGHT))
+
+  log "Post-restart local block height: $NEW_LOCAL_HEIGHT (Diff: $NEW_DIFF)"
+
+  if (( NEW_DIFF < DIFF )); then
+    log "Node is catching up after restart."
+  else
+    log "Node is still not catching up. Manual intervention required."
+  fi
 else
-    log "Node is fully synced. No action needed."
+  log "Node is healthy. Difference within $THRESHOLD blocks."
 fi
