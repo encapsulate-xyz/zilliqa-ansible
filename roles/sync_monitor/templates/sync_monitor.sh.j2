@@ -38,9 +38,11 @@ log "Difference: $DIFF blocks"
 sleep 90
 
 NEW_LOCAL_HEIGHT=$(get_block_height "$API_URL")
-NEW_DIFF=$((REMOTE_HEIGHT - NEW_LOCAL_HEIGHT))
+NEW_REMOTE_HEIGHT=$(get_block_height "$REMOTE_API_URL")
+NEW_DIFF=$((NEW_REMOTE_HEIGHT - NEW_LOCAL_HEIGHT))
 
 log "Local block height: $NEW_LOCAL_HEIGHT"
+log "Remote block height: $NEW_REMOTE_HEIGHT"
 log "Difference: $NEW_DIFF blocks"
 
 # Check difference threshold
