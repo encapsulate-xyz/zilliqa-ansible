@@ -35,20 +35,25 @@ log "Local block height:  $LOCAL_HEIGHT"
 log "Remote block height: $REMOTE_HEIGHT"
 log "Difference: $DIFF blocks"
 
-sleep 90
+# Check if difference is significant enough to monitor
+if (( DIFF > 500 )); then
+  sleep 90
 
-NEW_LOCAL_HEIGHT=$(get_block_height "$API_URL")
-NEW_REMOTE_HEIGHT=$(get_block_height "$REMOTE_API_URL")
-NEW_DIFF=$((NEW_REMOTE_HEIGHT - NEW_LOCAL_HEIGHT))
+  NEW_LOCAL_HEIGHT=$(get_block_height "$API_URL")
+  NEW_REMOTE_HEIGHT=$(get_block_height "$REMOTE_API_URL")
+  NEW_DIFF=$((NEW_REMOTE_HEIGHT - NEW_LOCAL_HEIGHT))
 
-log "Local block height: $NEW_LOCAL_HEIGHT"
-log "Remote block height: $NEW_REMOTE_HEIGHT"
-log "Difference: $NEW_DIFF blocks"
+  log "Local block height: $NEW_LOCAL_HEIGHT"
+  log "Remote block height: $NEW_REMOTE_HEIGHT"
+  log "Difference: $NEW_DIFF blocks"
 
-# Check difference threshold
-if (( NEW_DIFF > DIFF )); then
-  log "Node block height has been struck. Restarting service..."
-  systemctl restart zilliqa.service
+  # Check difference threshold
+  if (( NEW_DIFF > DIFF )); then
+    log "Node block height has been struck. Restarting service..."
+    systemctl restart zilliqa.service
+  else
+    log "Node is healthy."
+  fi
 else
   log "Node is healthy."
 fi
