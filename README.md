@@ -31,7 +31,7 @@ This playbook relies on HashiCorp Vault to securely retrieve sensitive files, su
 The playbook dynamically retrieves private keys and environment secrets for Zilliqa from HashiCorp Vault. The keys and secrets follow a structured path format:
 `<environment>/<project>/<organization>/<type>/<file_name>`
 For example:
-`testnet/zilliqa/encapsulate/validator/zilliqa.secrets.env`
+- [`testnet/zilliqa/encapsulate/validator/zilliqa.secrets.env`](roles/node/templates/secrets.env.example)
 
 This structure ensures easy organization and secure retrieval of secrets.
 
