@@ -7,12 +7,12 @@
 
 - name: Extract the checkpoint_file_name from the checkpoint_response
   ansible.builtin.set_fact:
-    checkpoint_file_name: "{{ (checkpoint_response.content | regex_findall('[0-9]+\\.dat'))[0] }}"
+    checkpoint_file_name: "{{ (checkpoint_response.content | regex_findall('[0-9]+\\.ckpt'))[0] }}"
   when: checkpoint_response.content is not none
 
 - name: Convert checkpoint_block_num to hexadecimal
   ansible.builtin.set_fact:
-    checkpoint_block_number_hex_value: "0x{{ '%X' | format(checkpoint_file_name | regex_replace('\\.dat$', '') | int) }}"
+    checkpoint_block_number_hex_value: "0x{{ '%X' | format(checkpoint_file_name | regex_replace('\\.ckpt$', '') | int) }}"
 
 - name: Get checkpoint_block_num hash
   ansible.builtin.uri:
