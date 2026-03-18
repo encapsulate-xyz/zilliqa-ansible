@@ -13,3 +13,5 @@
     - libev-dev
     - libgmp-dev
     - moreutils
+    - pkg-config
+    - libssl-dev
