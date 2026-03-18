@@ -6,6 +6,6 @@ all:
   children:
     zilliqa:
       hosts:
-        validator.zilliqa.mainnet.encapsulate.xyz:
+        ts.validator.zilliqa.mainnet.encapsulate.xyz:
           type: validator
           scilla_lib_dir: /opt/zilliqa-scilla/lib
