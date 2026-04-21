@@ -37,6 +37,12 @@ height = 13514400
 [nodes.consensus.contract_upgrades.deposit_v7.reinitialise_params]
 withdrawal_period = 461680
 
+[nodes.consensus.contract_upgrades.deposit_v8]
+height = 25902000
+
+[nodes.consensus.contract_upgrades.deposit_v8.reinitialise_params]
+withdrawal_period = 461680
+
 [nodes.consensus.new_view_broadcast_interval]
 secs = 30
 nanos = 0
@@ -79,6 +85,8 @@ validator_jailing = false
 scilla_empty_maps_are_encoded_correctly = false
 cancun_active = false
 scilla_call_gas_exempt_addrs_v2 = []
+randao_support = false
+evm_to_scilla_strings_encoded_properly = false
 
 [[nodes.consensus.forks]]
 at_height = 4770088
@@ -143,9 +151,10 @@ cancun_active = true
 at_height = 19486411
 scilla_call_gas_exempt_addrs_v2 = ["0x0F8aeCCaCA7FEE297cC2aBf7fFC9a81e7122A727"]
 
-[nodes.sync]
-prune_interval = 10000
-ignore_passive = true
+[[nodes.consensus.forks]]
+at_height = 25905600
+randao_support = true
+evm_to_scilla_strings_encoded_properly = true
 
 [[nodes.api_servers]]
 port = {{ zilliqa.validator.ports.json_rpc_port }}
