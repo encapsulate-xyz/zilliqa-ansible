@@ -87,6 +87,7 @@ cancun_active = false
 scilla_call_gas_exempt_addrs_v2 = []
 randao_support = false
 evm_to_scilla_strings_encoded_properly = false
+dont_overwrite_evm_accounts_from_stale_scilla_state = false
 
 [[nodes.consensus.forks]]
 at_height = 4770088
@@ -155,6 +156,10 @@ scilla_call_gas_exempt_addrs_v2 = ["0x0F8aeCCaCA7FEE297cC2aBf7fFC9a81e7122A727"]
 at_height = 25905600
 randao_support = true
 evm_to_scilla_strings_encoded_properly = true
+
+[[nodes.consensus.forks]]
+at_height = 27081150
+dont_overwrite_evm_accounts_from_stale_scilla_state = true
 
 [[nodes.api_servers]]
 port = {{ zilliqa.validator.ports.json_rpc_port }}
