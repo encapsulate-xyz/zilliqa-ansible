@@ -88,6 +88,8 @@ scilla_call_gas_exempt_addrs_v2 = []
 randao_support = false
 evm_to_scilla_strings_encoded_properly = false
 dont_overwrite_evm_accounts_from_stale_scilla_state = false
+make_transfers_in_scilla_precompiles_with_journal_api = false
+disable_interop_native_zil_transfers_0 = false
 
 [[nodes.consensus.forks]]
 at_height = 4770088
@@ -160,6 +162,14 @@ evm_to_scilla_strings_encoded_properly = true
 [[nodes.consensus.forks]]
 at_height = 27081150
 dont_overwrite_evm_accounts_from_stale_scilla_state = true
+
+[[nodes.consensus.forks]]
+at_height = 27152370
+disable_interop_native_zil_transfers_0 = true
+
+[[nodes.consensus.forks]]
+at_height = 27152370
+make_transfers_in_scilla_precompiles_with_journal_api = true
 
 [[nodes.api_servers]]
 port = {{ zilliqa.validator.ports.json_rpc_port }}
