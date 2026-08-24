@@ -5,6 +5,7 @@ bootstrap_address = ["12D3KooWLQ9Uu31ZVn2wMwt5HgunwHYRh4V12cLuTa9qqyFKxkqS", "/d
 [[nodes]]
 eth_chain_id = 32769
 data_dir = "{{ node_data_dir }}"
+blocked_recipients_dir = "{{ node_blocked_recipients_dir }}"
 
 [nodes.allowed_timestamp_skew]
 secs = 60
@@ -93,6 +94,10 @@ disable_interop_native_zil_transfers_0 = false
 tighten_precompile_rules = false
 allow_scilla_call_precompile_to_be_called_from_addresses = []
 disable_zilliqa_txn_execution = false
+blocked_recipients_start_height = 0
+blocked_recipients_file = ""
+zil_transfers_only_to_escrow = false
+deploy_escrow_contract_v1 = false
 
 [[nodes.consensus.forks]]
 at_height = 4770088
@@ -186,6 +191,19 @@ allow_scilla_call_precompile_to_be_called_from_addresses = ["0x03A79429acc808e42
 at_height = 31759109
 disable_zilliqa_txn_execution = true
 
+[[nodes.consensus.forks]]
+at_height = 34844968
+blocked_recipients_start_height = 34844968
+blocked_recipients_file = "blocked_recipients_001.bin"
+
+[[nodes.consensus.forks]]
+at_height = 99999999
+deploy_escrow_contract_v1 = true
+
+[[nodes.consensus.forks]]
+at_height = 99999999
+zil_transfers_only_to_escrow = true
+
 [[nodes.api_servers]]
 port = {{ zilliqa.validator.ports.json_rpc_port }}
 
@@ -202,11 +220,11 @@ port = {{ zilliqa.validator.ports.api_port }}
 enabled_apis = ["admin", "debug", "erigon", "eth", "net", "ots", "trace", "txpool", "web3", "zilliqa"]
 
 [nodes.credit_rates]
-CreateTransaction = 80
+CreateTransaction = 4000
 GetContractAddressFromTransactionID = 250
 GetBlockchainInfo = 500
 GetNumTxBlocks = 250
-GetSmartContractState = 1000
+GetSmartContractState = 4000
 GetSmartContractCode = 50
 GetSmartContractInit = 250
 GetTransaction = 150
@@ -235,7 +253,7 @@ GetTotalCoinSupplyAsInt = 5
 GetMinerInfo = 5
 GetPrevDifficulty = 5
 GetPrevDSDifficulty = 5
-GetSmartContractSubState = 80
+GetSmartContractSubState = 4000
 GetTransactionStatus = 250
 admin_consensusInfo = 10000
 admin_generateCheckpoint = 10000

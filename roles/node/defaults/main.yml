@@ -4,6 +4,7 @@ node_home_dir: /opt/{{ service_identifier }}
 
 node_bin_dir: "{{ node_home_dir }}/bin"
 node_config_dir: "{{ node_home_dir }}/config"
+node_blocked_recipients_dir: "{{ node_home_dir }}/blocked_recipients"
 node_data_dir: "{{ node_home_dir }}/data"
 node_env_dir: "{{ node_home_dir }}/environment"
 node_socket_dir: "{{ node_home_dir }}/socket"
@@ -13,6 +14,7 @@ node_directories:
   - "{{ node_home_dir }}"
   - "{{ node_bin_dir }}"
   - "{{ node_config_dir }}"
+  - "{{ node_blocked_recipients_dir }}"
   - "{{ node_data_dir }}"
   - "{{ node_env_dir }}"
   - "{{ node_socket_dir }}"
