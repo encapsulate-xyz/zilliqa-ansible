@@ -33,6 +33,17 @@
   notify:
     - Restart service
 
+- name: Copy the blocked recipients file to the target directory
+  ansible.builtin.copy:
+    src: "{{ tmp_dir }}/{{ project }}/blocked_recipients/blocked_recipients_001.bin"
+    dest: "{{ node_blocked_recipients_dir }}/blocked_recipients_001.bin"
+    mode: "0644"
+    owner: root
+    group: root
+    remote_src: true
+  notify:
+    - Restart service
+
 - name: Clean up the temporary repository directory
   ansible.builtin.file:
     path: "{{ tmp_dir }}/{{ project }}"
