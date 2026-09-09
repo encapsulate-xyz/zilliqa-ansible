@@ -96,6 +96,8 @@ allow_scilla_call_precompile_to_be_called_from_addresses = []
 disable_zilliqa_txn_execution = false
 blocked_recipients_start_height = 0
 blocked_recipients_file = ""
+blocked_recipients_start_height_v2 = 0
+blocked_recipients_file_v2 = ""
 zil_transfers_only_to_escrow = false
 deploy_escrow_contract_v1 = false
 
@@ -197,11 +199,16 @@ blocked_recipients_start_height = 34844968
 blocked_recipients_file = "blocked_recipients_001.bin"
 
 [[nodes.consensus.forks]]
-at_height = 99999999
+at_height = 36383378
+blocked_recipients_start_height_v2 = 36383378
+blocked_recipients_file_v2 = "blocked_recipients_002.bin"
+
+[[nodes.consensus.forks]]
+at_height = 36383378
 deploy_escrow_contract_v1 = true
 
 [[nodes.consensus.forks]]
-at_height = 99999999
+at_height = 36383379
 zil_transfers_only_to_escrow = true
 
 [[nodes.api_servers]]
