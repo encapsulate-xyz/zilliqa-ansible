@@ -7,3 +7,8 @@ node_config_file_name: config.toml
 # Environment file names
 node_environment_secret_file_name: "{{ service_identifier }}.secrets.env"
 node_environment_general_file_name: "{{ service_identifier }}.env"
+
+# Blocked recipients file names
+node_blocked_recipients_files:
+  - blocked_recipients_001.bin
+  - blocked_recipients_002.bin
