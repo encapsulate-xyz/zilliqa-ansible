@@ -44,6 +44,9 @@ height = 25902000
 [nodes.consensus.contract_upgrades.deposit_v8.reinitialise_params]
 withdrawal_period = 461680
 
+[nodes.consensus.contract_upgrades.deposit_v9]
+height = 37411200
+
 [nodes.consensus.new_view_broadcast_interval]
 secs = 30
 nanos = 0
@@ -98,6 +101,8 @@ blocked_recipients_start_height = 0
 blocked_recipients_file = ""
 blocked_recipients_start_height_v2 = 0
 blocked_recipients_file_v2 = ""
+blocked_recipients_start_height_v3 = 0
+blocked_recipients_file_v3 = ""
 zil_transfers_only_to_escrow = false
 deploy_escrow_contract_v1 = false
 
@@ -210,6 +215,11 @@ deploy_escrow_contract_v1 = true
 [[nodes.consensus.forks]]
 at_height = 36383379
 zil_transfers_only_to_escrow = true
+
+[[nodes.consensus.forks]]
+at_height = 37410000
+blocked_recipients_start_height_v3 = 37410000
+blocked_recipients_file_v3 = "blocked_recipients_003.bin"
 
 [[nodes.api_servers]]
 port = {{ zilliqa.validator.ports.json_rpc_port }}

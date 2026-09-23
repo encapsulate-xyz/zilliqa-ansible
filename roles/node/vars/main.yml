@@ -12,3 +12,4 @@ node_environment_general_file_name: "{{ service_identifier }}.env"
 node_blocked_recipients_files:
   - blocked_recipients_001.bin
   - blocked_recipients_002.bin
+  - blocked_recipients_003.bin
