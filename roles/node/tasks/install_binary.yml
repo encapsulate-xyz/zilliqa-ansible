@@ -11,6 +11,7 @@
     dest: "{{ tmp_dir }}/{{ project }}"
     version: "{{ zilliqa[type].version }}"
     force: true
+    recursive: true
 
 - name: Build the project using cargo
   ansible.builtin.command: cargo build --release --bin zilliqa
@@ -33,15 +34,43 @@
   notify:
     - Restart service
 
+- name: Find the blocked recipients files
+  ansible.builtin.find:
+    paths: "{{ tmp_dir }}/{{ project }}/blocked_recipients"
+    patterns: "*.bin"
+  register: blocked_recipients_found
+
 - name: Copy the blocked recipients files to the target directory
   ansible.builtin.copy:
-    src: "{{ tmp_dir }}/{{ project }}/blocked_recipients/{{ item }}"
-    dest: "{{ node_blocked_recipients_dir }}/{{ item }}"
-    mode: "0644"
+    src: "{{ item.path }}"
+    dest: "{{ node_blocked_recipients_dir }}/{{ item.path | basename }}"
+    mode: "0664"
     owner: root
     group: root
     remote_src: true
-  loop: "{{ node_blocked_recipients_files }}"
+  loop: "{{ blocked_recipients_found.files }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+  notify:
+    - Restart service
+
+- name: Find the escrow raw lists files
+  ansible.builtin.find:
+    paths: "{{ tmp_dir }}/{{ project }}/escrow_raw_lists"
+    patterns: "*.bin"
+  register: escrow_raw_lists_found
+
+- name: Copy the escrow raw lists files to the target directory
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: "{{ node_escrow_raw_lists_dir }}/{{ item.path | basename }}"
+    mode: "0664"
+    owner: root
+    group: root
+    remote_src: true
+  loop: "{{ escrow_raw_lists_found.files }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
   notify:
     - Restart service
 
