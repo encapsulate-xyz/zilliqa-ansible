@@ -27,3 +27,19 @@
         - name: Include scilla role
           ansible.builtin.include_role:
             name: scilla
+            public: true
+
+  post_tasks:
+    - name: Verify scilla
+      block:
+        - name: Include verify service task
+          ansible.builtin.include_tasks: tasks/verify_service.yml
+          vars:
+            log_file_path: "{{ scilla_log_file_path }}"
+            health_url: "http://localhost:{{ zilliqa.scilla.ports.scilla_port }}/run"
+            health_method: POST
+            health_body:
+              jsonrpc: "2.0"
+              method: "version"
+              params: []
+              id: 1

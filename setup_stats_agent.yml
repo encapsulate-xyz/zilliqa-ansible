@@ -26,3 +26,12 @@
         - name: Include stats_agent role
           ansible.builtin.include_role:
             name: stats_agent
+            public: true
+
+  post_tasks:
+    - name: Verify stats_agent
+      block:
+        - name: Include verify service task
+          ansible.builtin.include_tasks: tasks/verify_service.yml
+          vars:
+            log_file_path: "{{ stats_agent_log_file_path }}"
